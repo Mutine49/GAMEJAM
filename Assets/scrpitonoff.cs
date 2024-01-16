@@ -11,7 +11,6 @@ public class scriptonoff : MonoBehaviour
     [SerializeField] private GameObject lumiere;
     [SerializeField] private GameObject buttonlight;
     [SerializeField] private float maxDistance = 5f;
-    [SerializeField] private Camera mainCamera;
 
     private bool isDoorOpen = false; // Initialement la porte est fermée
     private bool isLightOn = false; // Initialement la porte est fermée
@@ -21,7 +20,7 @@ public class scriptonoff : MonoBehaviour
         if (Mouse.current.leftButton.isPressed) // Détecte le maintien du clic
         {
             RaycastHit hit;
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, maxDistance))
             {
                 if (hit.collider.CompareTag("Bouton"))
