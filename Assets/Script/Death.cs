@@ -22,7 +22,7 @@ public class Death : MonoBehaviour
             case DEATH_TYPE.LIGHT:
                 return !FindObjectOfType<ScriptOnOff>().isLightOff;
             case DEATH_TYPE.CAMERA:
-                return !FindObjectOfType<ChangeCam>().IsWatchingScreen();
+                return FindObjectOfType<ChangeCam>().IsWatchingScreen();
             default:
                 Debug.LogError("TYPE IS NOT DEFINED");
                 return false;

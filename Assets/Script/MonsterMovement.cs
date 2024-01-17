@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
@@ -9,6 +10,7 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] float[] ReverseChance; // Array for the chance that a robot walks backwards
     [SerializeField] int KillTime;
     [SerializeField] ScriptOnOff OnOff;
+    [SerializeField] ChangeCam CamOnOff;
 
     [SerializeField] int NightID; // ID of the current night
     [SerializeField] int MonsterID; // ID of the current monster
@@ -18,7 +20,7 @@ public class MonsterMovement : MonoBehaviour
     int ComputeWaypointIndex()
     {
         float random = Random.value;
-        if (random > ReverseChance[NightID])
+        if (ReverseChance.Length > 0 || random > ReverseChance[NightID])
         {
             return StepID + 1;
         }
@@ -37,10 +39,19 @@ public class MonsterMovement : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        NightManager.Instance.nightStopped += EndNight;
+        NightManager.Instance.newNightId += NewNight;
+
         OnOff = GameObject.FindObjectOfType<ScriptOnOff>();
+        CamOnOff = GameObject.FindObjectOfType<ChangeCam>();
 
         switch (MonsterID)
         {
@@ -49,11 +60,43 @@ public class MonsterMovement : MonoBehaviour
                 Step();
                 break;
             case 3 :
-                Cam();
+                CamLight();
                 break;
         }
 
     }
+
+    void EndNight()
+    {
+
+    }
+
+    void NewNight(int id)
+    {
+        NightID = id;
+    }
+
+    bool waitingForPlayerToLookAtMe = false;
+    void Update()
+    {
+        if (waitingForPlayerToLookAtMe)
+        {
+            if (!FindObjectOfType<ChangeCam>().IsWatchingScreen())
+            {
+                switch (MonsterID)
+                {
+                    case 3:
+                        Debug.Log("Hello");
+                        Invoke("Jumpscare", KillTime - NightID);
+                        waitingForPlayerToLookAtMe = false;
+                        break;
+
+                }
+
+            }
+        }
+    }
+
 
     // 
     void Step()
@@ -72,9 +115,18 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
-    void Cam()
+    void CamLight()
     {
-
+        if (FindObjectOfType<ChangeCam>().IsWatchingScreen() && Random.value < 1f)
+        {
+            transform.position = transform.position = waypointsParent.GetChild(1).position;
+            waitingForPlayerToLookAtMe = true;
+        }
+        else
+        {
+            
+            Invoke("CamLight", Random.Range(ActionTime[0].x, ActionTime[0].y) - NightID);
+        }
     }
 
     // Jumpscare MOVE DANS DOORDEATH.cs
