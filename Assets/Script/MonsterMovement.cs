@@ -17,7 +17,7 @@ public class MonsterMovement : MonoBehaviour
     int ComputeWaypointIndex()
     {
         float random = Random.value;
-        if (random > ReverseChance[NightID])
+        if (ReverseChance.Length > 0 || random > ReverseChance[NightID])
         {
             return StepID + 1;
         }
@@ -36,6 +36,11 @@ public class MonsterMovement : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,11 +52,33 @@ public class MonsterMovement : MonoBehaviour
                 Step();
                 break;
             case 3 :
-                Cam();
+                CamLight();
                 break;
         }
 
     }
+
+    bool waitingForPlayerToLookAtMe = false;
+    void Update()
+    {
+        if (waitingForPlayerToLookAtMe)
+        {
+            if (!FindObjectOfType<ChangeCam>().IsWatchingScreen())
+            {
+                switch (MonsterID)
+                {
+                    case 3:
+                        Debug.Log("Hello");
+                        Invoke("Jumpscare", KillTime - NightID);
+                        waitingForPlayerToLookAtMe = false;
+                        break;
+
+                }
+
+            }
+        }
+    }
+
 
     // 
     void Step()
@@ -70,9 +97,18 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
-    void Cam()
+    void CamLight()
     {
-
+        if (FindObjectOfType<ChangeCam>().IsWatchingScreen() && Random.value < 1f)
+        {
+            transform.position = transform.position = waypointsParent.GetChild(1).position;
+            waitingForPlayerToLookAtMe = true;
+        }
+        else
+        {
+            
+            Invoke("CamLight", Random.Range(ActionTime[0].x, ActionTime[0].y) - NightID);
+        }
     }
 
     // Jumpscare MOVE DANS DOORDEATH.cs

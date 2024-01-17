@@ -35,7 +35,10 @@ public class NightManager : MonoBehaviour
 
         instance = this;
         tObject.callback += NextNight;
-        tObject.updateCallback += timerCallback;
+        tObject.updateCallback += (x) =>
+        {
+            timerCallback?.Invoke(x);
+        };
         currentNight = -1;
         NextNight();
     }

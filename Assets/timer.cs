@@ -9,6 +9,8 @@ public class timer : MonoBehaviour
     TMP_Text textObject;
     float timers = 0f;
     bool started;
+    public  Action<float> updateCallback;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +45,8 @@ public class timer : MonoBehaviour
         if(started)
         {
             timers += Time.deltaTime;
-            if(timers >= triggerTime)
+            updateCallback?.Invoke(timers);
+            if (timers >= triggerTime)
             {
                 timers = triggerTime;
                 PauseTimer();
