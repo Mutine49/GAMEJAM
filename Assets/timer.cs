@@ -15,7 +15,7 @@ public class timer : MonoBehaviour
     void Update()
     {
         timers += Time.deltaTime;
-        textObject.text = "Heure : " + AdjustTime(timers);
+        textObject.text = AdjustTime(timers);
     }
 
     string AdjustTime(float time)

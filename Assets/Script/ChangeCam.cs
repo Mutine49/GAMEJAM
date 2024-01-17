@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class changecam : MonoBehaviour
+public class ChangeCam : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera[] cameras;
     [SerializeField] private GameObject[] tabcam;
@@ -17,6 +17,11 @@ public class changecam : MonoBehaviour
     void Start()
     {
         SetActiveCamera(0);
+    }
+
+    public bool IsWatchingScreen()
+    {
+        return cameras[0].enabled == false;
     }
 
     void SetActiveCamera(int camera)
