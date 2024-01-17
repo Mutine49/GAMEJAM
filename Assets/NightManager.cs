@@ -16,6 +16,7 @@ public class NightManager : MonoBehaviour
         }
     }
 
+    public Action<float> timerCallback;
     public Action nightStopped;
     public Action<int> newNightId;
 
@@ -24,7 +25,7 @@ public class NightManager : MonoBehaviour
     [SerializeField] TMP_Text text;
     public int currentNight;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(instance != null)
         {
@@ -34,6 +35,7 @@ public class NightManager : MonoBehaviour
 
         instance = this;
         tObject.callback += NextNight;
+        tObject.updateCallback += timerCallback;
         currentNight = -1;
         NextNight();
     }
@@ -81,7 +83,7 @@ public class NightManager : MonoBehaviour
 
     void NextNight()
     {
-        nightStopped.Invoke();
+        nightStopped?.Invoke();
         currentNight++;
         text.text = "Night " + (currentNight + 1);
         StartCoroutine(FadeCoroutine());

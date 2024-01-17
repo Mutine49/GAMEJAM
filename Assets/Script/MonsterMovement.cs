@@ -8,9 +8,8 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] Vector2[] ActionTime; // Array of the action time
     [SerializeField] float[] ReverseChance; // Array for the chance that a robot walks backwards
     [SerializeField] int KillTime;
-    [SerializeField] ScriptOnOff OnOff;
 
-    [SerializeField] int NightID; // ID of the current night
+    [SerializeField] public int NightID; // ID of the current night
     [SerializeField] int MonsterID; // ID of the current monster
     [SerializeField] Transform waypointsParent; // Parent of all the steps
     [SerializeField] Transform endingWaypoint; // Parent of all the steps
@@ -40,7 +39,6 @@ public class MonsterMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        OnOff = GameObject.FindObjectOfType<ScriptOnOff>();
 
         switch (MonsterID)
         {
