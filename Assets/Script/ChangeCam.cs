@@ -11,6 +11,7 @@ public class ChangeCam : MonoBehaviour
     [SerializeField] private GameObject[] tabcam;
     [SerializeField] int currentCamera;
     [SerializeField] private Camera mainCamera; // Assurez-vous d'assigner la caméra principale dans l'inspecteur
+    [SerializeField] AudioSource Beep;
 
 
     // Start is called before the first frame update
@@ -79,6 +80,7 @@ public class ChangeCam : MonoBehaviour
                 if (hit.collider.gameObject == tabcam[i])
                 {
                     SetActiveCamera(i); // Changez la caméra en fonction de l'indice de l'objet touché
+                    Beep.Play();
                     break; // Arrêtez la boucle une fois que vous avez trouvé l'objet correspondant
                 }
 
