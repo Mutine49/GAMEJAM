@@ -308,6 +308,8 @@ MonoBehaviour:
   MonsterID: 1
   waypointsParent: {fileID: 18939118643754934}
   endingWaypoint: {fileID: 7559794814662433842}
+  gameOverCanvas: {fileID: 5240386207829824926, guid: f202af6f3061b7b40ae10a230abc1a9a,
+    type: 3}
 --- !u!114 &5216388953464900656
 MonoBehaviour:
   m_ObjectHideFlags: 0
