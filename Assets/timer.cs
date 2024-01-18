@@ -59,6 +59,7 @@ public class timer : MonoBehaviour
 
     string AdjustTime(float time)
     {
+        time *= 2;
         int h = (int)(time / 60);
         int m = (int)(time % 60);
 

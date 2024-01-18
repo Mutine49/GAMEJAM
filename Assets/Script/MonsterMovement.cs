@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MonsterMovement : MonoBehaviour
 {
@@ -124,6 +125,7 @@ public class MonsterMovement : MonoBehaviour
         {
             transform.position = endingWaypoint.position;
             Debug.Log("GameOver");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
     }
