@@ -15,6 +15,10 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] Transform waypointsParent; // Parent of all the steps
     [SerializeField] Transform endingWaypoint; // Parent of all the steps
 
+    [SerializeField] AudioSource FootStep;
+    [SerializeField] AudioSource GlassBang;
+
+
     int ComputeWaypointIndex()
     {
         float random = Random.value;
@@ -86,6 +90,8 @@ public class MonsterMovement : MonoBehaviour
     {
         Debug.Log(StepID);
         transform.position = waypointsParent.GetChild(StepID).position;
+        transform.rotation = waypointsParent.GetChild(StepID).rotation;
+        FootStep.Play();
         StepID = ComputeWaypointIndex();
         if (StepID != waypointsParent.childCount)
         {
@@ -94,6 +100,7 @@ public class MonsterMovement : MonoBehaviour
         else
         {
             transform.position = waypointsParent.GetChild(waypointsParent.childCount - 1).position;
+            transform.rotation = waypointsParent.GetChild(waypointsParent.childCount - 1).rotation;
             Invoke("Jumpscare", KillTime - NightID);
         }
     }
@@ -102,7 +109,8 @@ public class MonsterMovement : MonoBehaviour
     {
         if (FindObjectOfType<ChangeCam>().IsWatchingScreen() && Random.value < 1f)
         {
-            transform.position = transform.position = waypointsParent.GetChild(1).position;
+            transform.position = waypointsParent.GetChild(1).position;
+            transform.rotation = waypointsParent.GetChild(1).rotation;
             waitingForPlayerToLookAtMe = true;
         }
         else
@@ -123,7 +131,7 @@ public class MonsterMovement : MonoBehaviour
         }
         else
         {
-            transform.position = endingWaypoint.position;
+            transform.rotation = endingWaypoint.rotation;
             Debug.Log("GameOver");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
