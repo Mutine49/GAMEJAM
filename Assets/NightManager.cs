@@ -88,7 +88,15 @@ public class NightManager : MonoBehaviour
     {
         nightStopped?.Invoke();
         currentNight++;
-        text.text = "Night " + (currentNight + 1);
-        StartCoroutine(FadeCoroutine());
+        if (currentNight >= 3)
+        {
+            FindObjectOfType<GameOverScript>().Win();
+        }
+        else
+        {
+            text.text = "Night " + (currentNight + 1);
+            StartCoroutine(FadeCoroutine());
+        }
+
     }
 }

@@ -133,7 +133,7 @@ public class MonsterMovement : MonoBehaviour
         {
             transform.rotation = endingWaypoint.rotation;
             Debug.Log("GameOver");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            FindObjectOfType<GameOverScript>().GameOver();
         }
 
     }
