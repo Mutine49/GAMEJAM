@@ -17,7 +17,8 @@ public class MonsterMovement : MonoBehaviour
 
     [SerializeField] AudioSource FootStep;
     [SerializeField] AudioSource GlassBang;
-
+    [SerializeField] AudioSource Doorhit;
+    [SerializeField] AudioSource Scream;
 
     int ComputeWaypointIndex()
     {
@@ -73,6 +74,7 @@ public class MonsterMovement : MonoBehaviour
                 switch (MonsterID)
                 {
                     case 3:
+                        GlassBang.Play();
                         Debug.Log("Hello");
                         Invoke("Jumpscare", KillTime - NightID);
                         waitingForPlayerToLookAtMe = false;
@@ -96,18 +98,26 @@ public class MonsterMovement : MonoBehaviour
         if (StepID != waypointsParent.childCount)
         {
             Invoke("Step", Random.Range(ActionTime[NightID].x, ActionTime[NightID].y));
+            if (StepID == waypointsParent.childCount - 1 && MonsterID == 2)
+            {
+                GlassBang.Play();
+            }
         }
         else
         {
             transform.position = waypointsParent.GetChild(waypointsParent.childCount - 1).position;
             transform.rotation = waypointsParent.GetChild(waypointsParent.childCount - 1).rotation;
+            if (MonsterID == 1)
+            {
+                GlassBang.Play();
+            }
             Invoke("Jumpscare", KillTime - NightID);
         }
     }
 
     void CamLight()
     {
-        if (FindObjectOfType<ChangeCam>().IsWatchingScreen() && Random.value < 1f)
+        if (FindObjectOfType<ChangeCam>().IsWatchingScreen() && Random.value < 0.5f)
         {
             transform.position = waypointsParent.GetChild(1).position;
             transform.rotation = waypointsParent.GetChild(1).rotation;
@@ -125,13 +135,29 @@ public class MonsterMovement : MonoBehaviour
     {
         if (GetComponent<Death>().IsSafe())
         {
-            StepID = 0;
-            Step();
+            switch (MonsterID)
+            {
+                case 1:
+                case 2:
+                    Doorhit.Play();
+                    StepID = 0;
+                    Step();
+                    break;
+                case 3:
+                    FootStep.Play();
+                    transform.position = waypointsParent.GetChild(0).position;
+                    transform.rotation = waypointsParent.GetChild(0).rotation;
+                    Invoke("CamLight",KillTime);
+                    break;
+            }
             Debug.Log("Safe");
         }
         else
+
         {
+            transform.position = endingWaypoint.position;
             transform.rotation = endingWaypoint.rotation;
+            Scream.Play();
             Debug.Log("GameOver");
             FindObjectOfType<GameOverScript>().GameOver();
         }
