@@ -221,10 +221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionTime:
   - {x: 10, y: 5}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: 8, y: 0}
+  - {x: 7, y: 0}
+  - {x: 6, y: 0}
+  - {x: 4, y: 0}
   ReverseChance: []
   KillTime: 7
   NightID: 0
